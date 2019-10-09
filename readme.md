@@ -26,22 +26,25 @@ Positional arguments:
 Optional arguments:
   -h, --help                                Show this help message and exit.
   -v, --version                             Show program's version number and exit.
-  -u UNICODENUM, --unicodeNum UNICODENUM    unicodeNum, 指定font的unicode起始值。default 60000（默认加1）&#xEA61;。 
+  -u UNICODENUM, --unicodeNum UNICODENUM    unicodeNum, 指定font的unicode起始值。default 60000。
+                                           （默认加1）&#xEA61;。 
   -n FILENAME, --fileName FILENAME          fileName, 指定生成字体文件的名字。default iconfont。
-  -f FONTFAMILY, --fontFamily FONTFAMILY    fontFamily, 指定字体的font-family。default iconfont
-                                            .iconfont {
-                                              font-family: "iconfont" !important;
-                                              font-size: 16px;
-                                              font-style: normal;
-                                              -webkit-font-smoothing: antialiased;
-                                              -moz-osx-font-smoothing: grayscale;
-                                            }
+  -f FONTFAMILY, --fontFamily FONTFAMILY    fontFamily, 指定字体的font-family。default iconfont。
+  
+                                              .iconfont {
+                                                font-family: "iconfont" !important;
+                                                font-size: 16px;
+                                                font-style: normal;
+                                                -webkit-font-smoothing: antialiased;
+                                                -moz-osx-font-smoothing: grayscale;
+                                              }
   
 
   -c FONTCLASS, --fontClass FONTCLASS       fontClass, 指定图标class的前缀。default icon-。
-                                            .icon-test-1:before {
-                                              content: "\ea61";
-                                            }
+  
+                                              .icon-test-1:before {
+                                                content: "\ea61";
+                                              }
 
 ```
 ### node
