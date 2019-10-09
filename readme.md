@@ -19,8 +19,10 @@ npm install --save https://github.com/george-quzhi/svg2font.git
 svg2font ./test/svgs ./test/font/
 ```
 ### node
+```js
 var svg2font = require("svg2font");
 svg2font.generate(svgPath, fontPath)
+```
 
 # [Licence](LICENSE)
 
