@@ -1,0 +1,46 @@
+{
+  "name": "svg2font",
+  "version": "0.0.1",
+  "description": "svg图片生成字体文件",
+  "main": "./index.js",
+  "author": {
+    "name": "George <504784339@163.com>"
+  },
+  "dependencies": {
+    "font-carrier": "^0.2.0",
+    "pinyin": "^2.9.0",
+    "svg_pathify": "^0.0.8",
+    "svgpath": "^2.2.2",
+    "xmldom": "^0.1.27"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:george-quzhi/svg2font.git"
+  },
+  "bin": {
+    "svg2font": "./svg2font-cli.js"
+  },
+  "engines": {
+    "node": ">= 0.4.x"
+  },
+  "keywords": [
+    "font",
+    "webfont",
+    "webfont",
+    "iconfont",
+    "font-cli",
+    "svg2font",
+    "svg2ttf",
+    "ttf2eot",
+    "ttf2woff",
+    "ttf2svg",
+    "fontmin",
+    "font-mini",
+    "font subset",
+    "font subsetting",
+    "font converter",
+    "font-carrier"
+  ],
+  "license": "MIT"
+}
