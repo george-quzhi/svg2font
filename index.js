@@ -18,7 +18,15 @@ var demoClassList = [];
 var demoSymbolList = [];
 var Svg2Font = (function () {
   return {
-    generate: function (svgPath, fontPath) {
+    generate: function (svgPath, fontPath, options) {
+      if (options.unicodeNum) unicodeNum = options.unicodeNum;
+
+      if (options.fileName) fileName = options.fileName;
+
+      if (options.fontFamily) fontFamily = options.fontFamily;
+
+      if (options.fontClass) fontClass = options.fontClass;
+
       const font = fontCarrier.create();
       font.setFontface({
         fontFamily: fontFamily
@@ -135,12 +143,15 @@ var Svg2Font = (function () {
         demoHtmlStr = demoHtmlStr.replace('<div id="unicode-list"></div>', demoUnicodeList.join('\n\n'));
         demoHtmlStr = demoHtmlStr.replace('<div id="class-list"></div>', demoClassList.join('\n\n'));
         demoHtmlStr = demoHtmlStr.replace('<div id="symbol-list"></div>', demoSymbolList.join('\n\n'));
+        demoHtmlStr = demoHtmlStr.replace('iconfont.css', `${fileName}.css`);
+        demoHtmlStr = demoHtmlStr.replace('iconfont.js', `${fileName}.js`);
         fs.writeFileSync(path.join(fontPath, 'demo_index.html'), demoHtmlStr);
 
         //输出demo-css
         fs.copyFileSync('./template/demo.css', path.join(fontPath, 'demo.css'));
 
       } catch (e) {
+        console.error(e);
         console.error("Can't open input file (%s)", svgPath);
         process.exit(1);
       }
