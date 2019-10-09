@@ -18,6 +18,7 @@ npm install --save https://github.com/george-quzhi/svg2font.git
 ```sh
 svg2font ./test/svgs ./test/font/
 ```
+```markdown
 Positional arguments:
   svgPath               Input svg path
   fontPath              Output font path
@@ -49,7 +50,7 @@ Optional arguments:
     content: "\ea61";
   }
   ```
-
+```
 ### node
 ```js
 var svg2font = require("svg2font");
