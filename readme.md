@@ -50,7 +50,12 @@ Optional arguments:
 ### node
 ```js
 var svg2font = require("svg2font");
-svg2font.generate(svgPath, fontPath);
+svg2font.generate(svgPath, fontPath, {
+  unicodeNum: 60000, //指定font的unicode起始值。
+  fileName: 'iconfont', //指定生成字体文件的名字。
+  fontFamily: 'iconfont', //指定字体的font-family。
+  fontClass: 'icon-' //指定图标class的前缀。
+});
 ```
 
 # [Licence](LICENSE)
