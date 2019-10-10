@@ -45,7 +45,9 @@ Optional arguments:
                                               .icon-test-1:before {
                                                 content: "\ea61";
                                               }
-  -r REVERSE, --reverse REVERSE  font to svg 反向，由字体文件生成svg图片 svg2font ./test/font/iconfont.ttf ./test/svgs/svg
+                                              
+  -r REVERSE, --reverse REVERSE             font to svg 反向，由字体文件生成svg图片 
+                                            svg2font ./test/font/iconfont.ttf ./test/svgs/svg -r true
 ```
 ### node
 ```js
