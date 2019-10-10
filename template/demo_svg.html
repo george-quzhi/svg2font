@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>svg2font</title>
+    <style>
+        .main {
+            padding: 30px 100px;
+            width: 960px;
+            margin: 0 auto;
+        }
+
+        .icon_lists {
+            width: 100% !important;
+            overflow: hidden;
+            *zoom: 1;
+        }
+
+        .icon_lists li {
+            width: 100px;
+            margin-bottom: 10px;
+            margin-right: 20px;
+            text-align: center;
+            list-style: none !important;
+            cursor: default;
+            display: inline-block;
+        }
+
+        .icon_lists li .code-name {
+            line-height: 1.2;
+        }
+
+        .icon_lists .icon {
+            display: block;
+            height: 100px;
+            line-height: 100px;
+            font-size: 42px;
+            margin: 10px auto;
+            color: #333;
+            -webkit-transition: font-size 0.25s linear, width 0.25s linear;
+            -moz-transition: font-size 0.25s linear, width 0.25s linear;
+            transition: font-size 0.25s linear, width 0.25s linear;
+        }
+
+        .icon_lists .icon:hover {
+            font-size: 100px;
+        }
+
+        .dib-box .dib {
+            vertical-align: top;
+            font-size: 12px;
+            letter-spacing: normal;
+            word-spacing: normal;
+            line-height: inherit;
+        }
+
+        .icon_lists .svg-icon {
+            width: 1em;
+            vertical-align: -0.15em;
+            fill: currentColor;
+            overflow: hidden;
+        }
+
+        .icon_lists li .name,
+        .icon_lists li .code-name {
+            color: #666;
+            padding: 2px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <h1>svg2font</h1>
+        <div class="tab-container">
+            <div class="content unicode" style="display: block;">
+                <div class="article markdown">
+                    <hr />
+                    <ul class="icon_lists dib-box">
+                        <div id="svg-list"></div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
