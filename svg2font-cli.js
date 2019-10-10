@@ -26,18 +26,18 @@ var parser = new ArgumentParser({
 });
 
 parser.addArgument(
-  ['svgPath'],
+  ['inputPath'],
   {
-    nargs: 1,
-    help: 'Input svg path'
+    help: 'Input path',
+    type: 'string'
   }
 );
 
 parser.addArgument(
-  ['fontPath'],
+  ['outputPath'],
   {
-    nargs: 1,
-    help: 'Output font path'
+    help: 'Output path',
+    type: 'string'
   }
 );
 
@@ -77,7 +77,49 @@ parser.addArgument(
   }
 );
 
+parser.addArgument(
+  ['-r', '--reverse'],
+  {
+    help: 'font to svg',
+    required: false,
+    type: 'string'
+  }
+);
+
 var args = parser.parseArgs();
+
+if (args.reverse) {
+  try {
+    if (!fs.existsSync(args.outputPath)) {
+      fs.mkdirSync(args.outputPath);
+    }
+
+    var glyphs = fontCarrier.transfer(args.inputPath).allGlyph();
+
+    const svgs = [];
+    for (key in glyphs) {
+      var svg = glyphs[key].toSvg();
+      var glyphName = glyphs[key].options.name || glyphs[key].options.glyphName || key.slice(1);
+      svgs.push([
+        `<li class="dib">`,
+        `  <img class="icon svg-icon" src="data:image/svg+xml;base64,${new Buffer(svg).toString('base64')}" alt=""></img>`,
+        `  <div class="name">${glyphName}</div>`,
+        `  <div class="code-name">${key.slice(1)}</div>`,
+        `</li>`
+      ].join('\n'));
+      fs.writeFileSync(path.join(args.outputPath, glyphName + '.svg'), svg);
+    }
+
+    let template = fs.readFileSync('./template/demo_svg.html').toString();
+    template = template.replace('<div id="svg-list"></div>', svgs.join('\n\n'));
+    fs.writeFileSync(path.join(args.outputPath, 'demo_svg.html'), template);
+  } catch (e) {
+    console.error(e);
+    console.error("Can't open input file (%s)", args.inputPath);
+    process.exit(1);
+  }
+  return;
+}
 
 if (args.unicodeNum) unicodeNum = args.unicodeNum;
 
@@ -87,7 +129,6 @@ if (args.fontFamily) fontFamily = args.fontFamily;
 
 if (args.fontClass) fontClass = args.fontClass;
 
-// console.log(args)
 
 const font = fontCarrier.create();
 font.setFontface({
@@ -161,18 +202,18 @@ try {
     });
   }
 
-  travel(args.svgPath[0]);
+  travel(args.inputPath);
 
-  if (!fs.existsSync(args.fontPath[0])) {
-    fs.mkdirSync(args.fontPath[0]);
+  if (!fs.existsSync(args.outputPath)) {
+    fs.mkdirSync(args.outputPath);
   }
   //输出字体文件
   font.output({
-    path: path.join(args.fontPath[0], fileName)
+    path: path.join(args.outputPath, fileName)
   });
 
   //输出css文件
-  const woff2 = fs.readFileSync(path.join(args.fontPath[0], fileName) + '.woff2').toString()
+  const woff2 = fs.readFileSync(path.join(args.outputPath, fileName) + '.woff2').toString()
   const base64 = Buffer.from(woff2).toString('base64')
   const timestamp = new Date().getTime();
   const cssStr = [
@@ -194,11 +235,11 @@ try {
     `}\n\n`
   ].join('\n') + cssItems.join('\n\n');
 
-  fs.writeFileSync(path.join(args.fontPath[0], fileName + '.css'), cssStr);
+  fs.writeFileSync(path.join(args.outputPath, fileName + '.css'), cssStr);
 
   //输出js文件
   const jsStr = `!function (a) { var t, c = '<svg>${symbols.join('')}</svg>', e = (t = document.getElementsByTagName("script"))[t.length - 1].getAttribute("data-injectcss"); if (e && !a.__iconfont__svg__cssinject__) { a.__iconfont__svg__cssinject__ = !0; try { document.write("<style>.svgfont {display: inline-block;width: 1em;height: 1em;fill: currentColor;vertical-align: -0.1em;font-size:16px;}</style>") } catch (t) { console && console.log(t) } } !function (t) { if (document.addEventListener) if (~["complete", "loaded", "interactive"].indexOf(document.readyState)) setTimeout(t, 0); else { var e = function () { document.removeEventListener("DOMContentLoaded", e, !1), t() }; document.addEventListener("DOMContentLoaded", e, !1) } else document.attachEvent && (n = t, l = a.document, o = !1, (i = function () { try { l.documentElement.doScroll("left") } catch (t) { return void setTimeout(i, 50) } c() })(), l.onreadystatechange = function () { "complete" == l.readyState && (l.onreadystatechange = null, c()) }); function c() { o || (o = !0, n()) } var n, l, o, i }(function () { var t, e; (t = document.createElement("div")).innerHTML = c, c = null, (e = t.getElementsByTagName("svg")[0]) && (e.setAttribute("aria-hidden", "true"), e.style.position = "absolute", e.style.width = 0, e.style.height = 0, e.style.overflow = "hidden", function (t, e) { e.firstChild ? function (t, e) { e.parentNode.insertBefore(t, e) }(t, e.firstChild) : e.appendChild(t) }(e, document.body)) }) }(window);`
-  fs.writeFileSync(path.join(args.fontPath[0], fileName + '.js'), jsStr);
+  fs.writeFileSync(path.join(args.outputPath, fileName + '.js'), jsStr);
 
   //输出demo-html
   let demoHtmlStr = fs.readFileSync('./template/demo_index.html').toString();
@@ -207,13 +248,13 @@ try {
   demoHtmlStr = demoHtmlStr.replace('<div id="symbol-list"></div>', demoSymbolList.join('\n\n'));
   demoHtmlStr = demoHtmlStr.replace('iconfont.css', `${fileName}.css`);
   demoHtmlStr = demoHtmlStr.replace('iconfont.js', `${fileName}.js`);
-  fs.writeFileSync(path.join(args.fontPath[0], 'demo_index.html'), demoHtmlStr);
+  fs.writeFileSync(path.join(args.outputPath, 'demo_index.html'), demoHtmlStr);
 
   //输出demo-css
-  fs.copyFileSync('./template/demo.css', path.join(args.fontPath[0], 'demo.css'));
+  fs.copyFileSync('./template/demo.css', path.join(args.outputPath, 'demo.css'));
 
 } catch (e) {
   console.error(e);
-  console.error("Can't open input file (%s)", args.svgPath[0]);
+  console.error("Can't open input file (%s)", args.inputPath);
   process.exit(1);
 }
