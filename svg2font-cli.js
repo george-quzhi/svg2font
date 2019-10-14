@@ -91,7 +91,7 @@ var args = parser.parseArgs();
 if (args.reverse) {
   try {
     if (!fs.existsSync(args.outputPath)) {
-      fs.mkdirSync(args.outputPath);
+      fs.mkdirSync(args.outputPath, { recursive: true });
     }
 
     var glyphs = fontCarrier.transfer(args.inputPath).allGlyph();
@@ -208,7 +208,7 @@ try {
   travel(args.inputPath);
 
   if (!fs.existsSync(args.outputPath)) {
-    fs.mkdirSync(args.outputPath);
+    fs.mkdirSync(args.outputPath, { recursive: true });
   }
   //输出字体文件
   font.output({
