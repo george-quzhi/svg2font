@@ -154,7 +154,7 @@ var Svg2Font = (function () {
       } catch (e) {
         console.error(e);
         console.error("Can't open input file (%s)", inputPath);
-        process.exit(1);
+        throw e;
       }
     },
     reverse: function (inputPath, outputPath) {
@@ -188,6 +188,7 @@ var Svg2Font = (function () {
       } catch (e) {
         console.error(e);
         console.error("Can't open input file (%s)", inputPath);
+        throw e;
       }
     }
   }
