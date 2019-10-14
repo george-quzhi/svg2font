@@ -103,7 +103,7 @@ var Svg2Font = (function () {
         travel(inputPath);
 
         if (!fs.existsSync(outputPath)) {
-          fs.mkdirSync(outputPath);
+          fs.mkdirSync(outputPath, { recursive: true });
         }
         //输出字体文件
         font.output({
@@ -160,7 +160,7 @@ var Svg2Font = (function () {
     reverse: function (inputPath, outputPath) {
       try {
         if (!fs.existsSync(outputPath)) {
-          fs.mkdirSync(outputPath);
+          fs.mkdirSync(outputPath, { recursive: true });
         }
 
         var glyphs = fontCarrier.transfer(inputPath).allGlyph();
