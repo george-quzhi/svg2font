@@ -139,7 +139,7 @@ var Svg2Font = (function () {
         fs.writeFileSync(path.join(fontPath, fileName + '.js'), jsStr);
 
         //输出demo-html
-        let demoHtmlStr = fs.readFileSync('./template/demo_index.html').toString();
+        let demoHtmlStr = fs.readFileSync(path.join(__dirname, 'template', 'demo_index.html')).toString();
         demoHtmlStr = demoHtmlStr.replace('<div id="unicode-list"></div>', demoUnicodeList.join('\n\n'));
         demoHtmlStr = demoHtmlStr.replace('<div id="class-list"></div>', demoClassList.join('\n\n'));
         demoHtmlStr = demoHtmlStr.replace('<div id="symbol-list"></div>', demoSymbolList.join('\n\n'));
@@ -148,7 +148,7 @@ var Svg2Font = (function () {
         fs.writeFileSync(path.join(fontPath, 'demo_index.html'), demoHtmlStr);
 
         //输出demo-css
-        fs.copyFileSync('./template/demo.css', path.join(fontPath, 'demo.css'));
+        fs.copyFileSync(path.join(__dirname, 'template', 'demo.css'), path.join(fontPath, 'demo.css'));
 
       } catch (e) {
         console.error(e);
