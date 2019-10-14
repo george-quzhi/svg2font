@@ -11,14 +11,15 @@ var fileName = 'iconfont';
 var fontFamily = 'iconfont';
 var fontClass = 'icon-';
 
-var cssItems = [];
-var symbols = [];
-var demoUnicodeList = [];
-var demoClassList = [];
-var demoSymbolList = [];
+
 var Svg2Font = (function () {
   return {
     generate: function (inputPath, outputPath, options) {
+      var cssItems = [];
+      var symbols = [];
+      var demoUnicodeList = [];
+      var demoClassList = [];
+      var demoSymbolList = [];
       if (options.unicodeNum) unicodeNum = options.unicodeNum;
 
       if (options.fileName) fileName = options.fileName;
