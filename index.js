@@ -167,6 +167,9 @@ var Svg2Font = (function () {
 
         const svgs = [];
         for (key in glyphs) {
+          if (key == "&#x78;") {
+            continue;
+          }
           var svg = glyphs[key].toSvg();
           var glyphName = glyphs[key].options.name || glyphs[key].options.glyphName || key.slice(1);
           svgs.push([
