@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 var fs = require('fs');
 var fontCarrier = require('font-carrier')
 var path = require('path');
@@ -55,15 +54,18 @@ var Svg2Font = (function () {
         var travel = function (dir) {
 
           if (!fs.statSync(dir).isDirectory()) {
-            readSvg(dir);
+            if (path.extname(dir) === '.svg') {
+              readSvg(dir);
+            }
           } else {
             fs.readdirSync(dir).forEach(function (file) {
-
               var pathname = path.join(dir, file);
               if (fs.statSync(pathname).isDirectory()) {
                 travel(pathname);
               } else {
-                readSvg(pathname);
+                if (path.extname(pathname) === '.svg') {
+                  readSvg(pathname);
+                }
               }
             });
           }
