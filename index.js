@@ -31,6 +31,38 @@ var Svg2Font = (function () {
 
 
   return {
+    reverse: function (inputPath, outputPath) {
+      try {
+
+        mkdirSync(outputPath, () => {
+          var glyphs = fontCarrier.transfer(inputPath).allGlyph();
+          const svgs = [];
+          for (key in glyphs) {
+            if (key == "&#x78;") {
+              continue;
+            }
+            var svg = glyphs[key].toSvg();
+            var glyphName = glyphs[key].options.name || glyphs[key].options.glyphName || key.slice(1);
+            svgs.push([
+              `<li class="dib">`,
+              `  <img class="icon svg-icon" src="data:image/svg+xml;base64,${new Buffer(svg).toString('base64')}" alt=""></img>`,
+              `  <div class="name">${glyphName}</div>`,
+              `  <div class="code-name">${key.slice(1)}</div>`,
+              `</li>`
+            ].join('\n'));
+            fs.writeFileSync(path.join(outputPath, glyphName + '.svg'), svg);
+          }
+
+          let template = fs.readFileSync(path.join(__dirname, 'template', 'demo_svg.html')).toString();
+          template = template.replace('<div id="svg-list"></div>', svgs.join('\n\n'));
+          fs.writeFileSync(path.join(outputPath, 'demo_svg.html'), template);
+        });
+      } catch (e) {
+        console.error(e);
+        console.error("Can't open input file (%s)", inputPath);
+        throw e;
+      }
+    },
     generate: function (inputPath, outputPath, options) {
 
       if (options.unicodeNum) unicodeNum = options.unicodeNum;
@@ -186,39 +218,6 @@ var Svg2Font = (function () {
           outputDemo();
         });
 
-      } catch (e) {
-        console.error(e);
-        console.error("Can't open input file (%s)", inputPath);
-        throw e;
-      }
-    },
-
-    reverse: function (inputPath, outputPath) {
-      try {
-
-        mkdirSync(outputPath, () => {
-          var glyphs = fontCarrier.transfer(inputPath).allGlyph();
-          const svgs = [];
-          for (key in glyphs) {
-            if (key == "&#x78;") {
-              continue;
-            }
-            var svg = glyphs[key].toSvg();
-            var glyphName = glyphs[key].options.name || glyphs[key].options.glyphName || key.slice(1);
-            svgs.push([
-              `<li class="dib">`,
-              `  <img class="icon svg-icon" src="data:image/svg+xml;base64,${new Buffer(svg).toString('base64')}" alt=""></img>`,
-              `  <div class="name">${glyphName}</div>`,
-              `  <div class="code-name">${key.slice(1)}</div>`,
-              `</li>`
-            ].join('\n'));
-            fs.writeFileSync(path.join(outputPath, glyphName + '.svg'), svg);
-          }
-
-          let template = fs.readFileSync(path.join(__dirname, 'template', 'demo_svg.html')).toString();
-          template = template.replace('<div id="svg-list"></div>', svgs.join('\n\n'));
-          fs.writeFileSync(path.join(outputPath, 'demo_svg.html'), template);
-        });
       } catch (e) {
         console.error(e);
         console.error("Can't open input file (%s)", inputPath);
